@@ -10,7 +10,7 @@ Działający fizyczny TNC w trybie KISS (np. VP-DIGI przez port szeregowy /dev/r
 
 Zainstaluj Python 3 i pip (jeśli nie masz):
 
-sudo apt install python3 python3-pip
+<code>sudo apt install python3 python3-pip</code>
 
 Zainstaluj bibliotekę requests:
 
