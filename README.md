@@ -53,6 +53,7 @@ sudo nano /etc/systemd/system/vhf-propagation.service
 </code>
 Wklej zawartość:
 <code>
+
 [Unit]
 Description=VHF Propagation Monitor Service
 After=network.target
@@ -65,7 +66,9 @@ Environment=PYTHONUNBUFFERED=1
 
 [Install]
 WantedBy=multi-user.target
+
 </code>
+
 Zamień <użytkownik> na swoją nazwę użytkownika.
 
 Następnie załaduj i uruchom usługę:
