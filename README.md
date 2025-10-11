@@ -3,7 +3,7 @@
 
 Linux
 Python 3
-Działający fizyczny TNC w trybie KISS (np. VP-DIGI przez port szeregowy /dev/rfcomm0)
+Działający fizyczny TNC w trybie KISS (np. VP-DIGI przez port szeregowy /dev/ttyACM0)
 
 
 1. Instalacja zależności
@@ -24,7 +24,7 @@ Pobierz i skompiluj share-tnc:
 cd share-tnc
 make
 </code>
-Uruchom share-tnc z połączeniem do fizycznego TNC (np. /dev/rfcomm0):
+Uruchom share-tnc z połączeniem do fizycznego TNC (np. /dev/ttyACM0):
 
 <code>./share-tnc /dev/rfcomm0</code>
 
@@ -35,7 +35,7 @@ Utwórz plik:
 
 <code>nano ~/vhf_propagation.py</code>
 
-Wklej pełną wersję skryptu, który pobiera dane z https://vhf.dxview.org i wysyła ramki APRS przez socket TCP na localhost:8001.
+Wklej pełną wersję skryptu, który pobiera dane z https://vhf.dxview.org i wysyła ramki APRS przez socket TCP na localhost:8111.
 
 Zapisz i nadaj uprawnienia:
 
