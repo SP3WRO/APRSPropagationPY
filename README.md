@@ -28,7 +28,7 @@ Uruchom share-tnc z połączeniem do fizycznego TNC (np. /dev/ttyACM0):
 
 <code>./share-tnc /dev/rfcomm0</code>
 
-To utworzy port TCP domyślnie na localhost:8001.
+To utworzy port TCP domyślnie na localhost:8111.
 3. Utwórz skrypt vhf_propagation.py
 
 Utwórz plik:
