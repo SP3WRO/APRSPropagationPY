@@ -60,10 +60,10 @@ def pick_hits(entries):
 
 def determine_payload(hits_250, hits_500):
     if hits_500:
-        return ">Propagacja 2m: BARDZO WYSOKA"
+        return ">Propagation 2m: VERY HIGH"
     if hits_250:
-        return ">Propagacja 2m: Podwyzszona"
-    return ">Propagacja 2m: normalna"
+        return ">Propagation 2m: enhanced"
+    return ">Propagation 2m: normal"
 
 # ===== AX.25 + KISS (sprawdzona metoda) =====
 def encode_ax25_address(callsign: str, ssid: int, last: bool = False) -> bytes:
@@ -97,9 +97,9 @@ def send_aprs_message(message: str):
         with socket.create_connection((SHARE_TNC_HOST, SHARE_TNC_PORT), timeout=6) as sock:
             sock.sendall(kiss_frame)
 
-        print(f"📡 Wysłano APRS: {message}")
+        print(f"📡 APRS sended: {message}")
     except Exception as e:
-        print(f"❌ Błąd wysyłania do share-tnc: {e}")
+        print(f"❌ Sending error to share-tnc: {e}")
 
 # ===== Główna logika =====
 def one_cycle():
@@ -113,7 +113,7 @@ def one_cycle():
     h500 = pick_hits(e500)
 
     # Podgląd (opcjonalny)
-    print(f"Znaleziono wpisów: >=250 km: {len(e250)}, >=500 km: {len(e500)}")
+    print(f"entries found: >=250 km: {len(e250)}, >=500 km: {len(e500)}")
     for a,d,b in h250[:10]:
         print(f"[HIT 250] {a} — {d} km — {b}")
     for a,d,b in h500[:10]:
@@ -127,7 +127,7 @@ def main():
         try:
             one_cycle()
         except Exception as e:
-            print(f"❌ Błąd cyklu: {e}")
+            print(f"❌ Cycle error: {e}")
         time.sleep(CHECK_INTERVAL)
 
 if __name__ == "__main__":
