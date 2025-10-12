@@ -1,91 +1,10 @@
-🇵🇱 Instrukcja instalacji i konfiguracji skryptu VHF + APRS
-✅ Wymagania:
+APRS_propagation.py is used to transmit information about propagation conditions in the 2 m band.
 
-Linux
-Python 3
-Działający fizyczny TNC w trybie KISS (np. VP-DIGI przez port szeregowy /dev/ttyACM0)
+How it works:
+Every 15 minutes, the script retrieves the “text_display” data from the website vhf.dxview.org and checks whether APRS frames have exceeded distances of 250 km and 500 km for gridsquares located within the borders of Poland. After analysis, it reports either “enhanced propagation” or “very high propagation.” The data are then formatted into an APRS frame and sent using the KISS protocol over TCP.
 
+In my setup, I use a radio with the VP-DIGI digipeater connected to the computer. The computer runs share-tnc and aprx (for iGate) to exchange information between them.
 
-1. Instalacja zależności
+The script can be freely customized to individual needs.
+The project is installed on station SR3WR.
 
-Zainstaluj Python 3 i pip (jeśli nie masz):
-
-<code>sudo apt install python3 python3-pip</code>
-
-Zainstaluj bibliotekę requests:
-
-<code>pip3 install requests</code>
-
-2. Instalacja share-tnc
-
-Pobierz i skompiluj share-tnc:
-
-<code>git clone https://github.com/trasukg/share-tnc.git
-cd share-tnc
-make
-</code>
-Uruchom share-tnc z połączeniem do fizycznego TNC (np. /dev/ttyACM0):
-
-<code>./share-tnc /dev/rfcomm0</code>
-
-To utworzy port TCP domyślnie na localhost:8111.
-3. Utwórz skrypt vhf_propagation.py
-
-Utwórz plik:
-
-<code>nano ~/vhf_propagation.py</code>
-
-Wklej pełną wersję skryptu, który pobiera dane z https://vhf.dxview.org i wysyła ramki APRS przez socket TCP na localhost:8111.
-
-Zapisz i nadaj uprawnienia:
-
-<code>chmod +x ~/vhf_propagation.py</code>
-
-Uruchom testowo:
-
-<code>python3 ~/vhf_propagation.py</code>
-
-4. (Opcjonalnie) Utwórz usługę systemową (systemd)
-
-Utwórz plik:
-<code>
-sudo nano /etc/systemd/system/vhf-propagation.service
-</code>
-Wklej zawartość:
-<code>
-
-[Unit]
-Description=VHF Propagation Monitor Service
-After=network.target
-
-[Service]
-ExecStart=/usr/bin/python3 /home/<użytkownik>/vhf_propagation.py
-Restart=on-failure
-User=<użytkownik>
-Environment=PYTHONUNBUFFERED=1
-
-[Install]
-WantedBy=multi-user.target
-
-</code>
-
-Zamień <użytkownik> na swoją nazwę użytkownika.
-
-Następnie załaduj i uruchom usługę:
-<code>
-sudo systemctl daemon-reexec
-sudo systemctl daemon-reload
-sudo systemctl enable --now vhf-propagation.service
-</code>
-Możesz obserwować logi:
-<code>
-journalctl -u vhf-propagation -f
-</code>
-📡 Efekt działania
-
-Skrypt będzie co 15 minut:
-
-Pobierał dane o propagacji w paśmie 2m z dwóch źródeł na dystansach 250 i 500km
-Sprawdzał obecność łączności w określonych kwadratach
-Generował gotową ramkę APRS przez protokół KISS
-Wysyłał ją do share-tnc.
